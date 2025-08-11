@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:3.5
+    container_name: localstack
+    ports:
+      - "4566:4566" # endpoint único para todos os serviços
+      - "4510-4559:4510-4559" # portas internas
+    environment:
+      - SERVICES=sqs,dynamodb
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DEBUG=1
+    volumes:
+      - "./localstack-init:/etc/localstack/init/ready.d"
+      - "localstack_data:/var/lib/localstack"
+
+volumes:
+  localstack_data:
